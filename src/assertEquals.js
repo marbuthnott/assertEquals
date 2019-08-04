@@ -9,11 +9,16 @@
  */
 function assertEquals(message, expected, actual) {
 
-    if (Array.isArray(expected) === true && Array.isArray(actual) === false) {
+    if (Array.isArray(expected) && Array.isArray(actual) === false) {
       throw new Error(message + 'Expected type Array but found ' + capitalize(typeof actual));
     }
 
-    else if (Array.isArray(expected)) {
+    if (expected === null && actual !== null) {
+      console.log("i'm here");
+      throw new Error(message + 'Expected type null but found type ' + capitalize(typeof actual));
+    }
+
+    else if (Array.isArray(expected) && Array.isArray(actual)) {
       if (expected.length !== actual.length) {
         throw new Error(message + 'Expected array length ' + expected.length + ' but found ' + actual.length);
       }
@@ -40,25 +45,15 @@ function assertEquals(message, expected, actual) {
                 }
               }
             } 
-            // else if (expected[key1][key2] !== actual[key1][key2]) {
-              // if they don't equal then throw error
-              // throw new Error(message + 'Expected "' + key1 + '.' + key2 + ' "' + expected[key1][key2] + '" but found ' + actual[key1][key2]);
-            // }
-            // if 'actual' key does not exist throw error
             else if (actual[key1][key2] === undefined) {
               throw new Error(message + 'Expected ' + key1 + '.' + key2 + ' but was not found');
             }
           }
         }
-        // if key1 isn't embedded object then compare with actual object
-        // else if (expected[key1] !== actual[key1]) {
-          // if they don't equal then throw error
-          // throw new Error(message + 'Expected ' + key1 + ' "' + expected[key1] + '" but found ' + actual[key1]);
-        // }
       }
     }
 
-    else if (expected.toString() !== actual.toString()) {
+    if (expected.toString() !== actual.toString()) {
       throw new Error(message + 'Expected "' + expected + '" found "' + actual + '"');
     }
 
@@ -132,7 +127,7 @@ function runAll() {
   runTest('Test 07: ', assertionFailures, complexObject1, complexObject1Copy);
   runTest('Test 08: ', assertionFailures, complexObject1, complexObject2);
   runTest('Test 09: ', assertionFailures, complexObject1, complexObject3);
-  // runTest('Test 10: ', assertionFailures, null, {});
+  runTest('Test 10: ', assertionFailures, null, {});
 
   
   // Output the results

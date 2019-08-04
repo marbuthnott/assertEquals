@@ -86,6 +86,13 @@ var assertEqualsSpec = {
       assertEquals('Test 09: ', complexObject1, complexObject3);
     };
     assert.throwsError(assertion, 'Test 09: Expected propB.propC but was not found')
+  },
+
+  test10_ExpectedNullAndActualObject_throwsError: function() {
+    var assertion = function() {
+      assertEquals('Test 10: ', null, {});
+    };
+    assert.throwsError(assertion, 'Test 10: Expected type null but found type Object');
   }
 
 }
