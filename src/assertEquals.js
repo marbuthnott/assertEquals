@@ -81,12 +81,13 @@ function runAll() {
   runTest('Test 01: ', assertionFailures, 'abc', 'abc');
   runTest('Test 02: ', assertionFailures, 'abcdef', 'abc');
   runTest('Test 03: ', assertionFailures, ['a'], {0: 'a'});
-  // runTest('Test 04: ', assertionFailures, ['a', 'b'], ['a', 'b', 'c']);
-  // runTest('Test 05: ', assertionFailures, ['a', 'b', 'c'], ['a', 'b', 'c']);
-  // runTest('Test 06: ', assertionFailures, complexObject1, complexObject1Copy);
-  // runTest('Test 07: ', assertionFailures, complexObject1, complexObject2);
-  // runTest('Test 08: ', assertionFailures, complexObject1, complexObject3);
-  // runTest('Test 09: ', assertionFailures, null, {});
+  runTest('Test 04: ', assertionFailures, ['a'], 'this is a string');
+  // runTest('Test 05: ', assertionFailures, ['a', 'b'], ['a', 'b', 'c']);
+  // runTest('Test 06: ', assertionFailures, ['a', 'b', 'c'], ['a', 'b', 'c']);
+  // runTest('Test 07: ', assertionFailures, complexObject1, complexObject1Copy);
+  // runTest('Test 08: ', assertionFailures, complexObject1, complexObject2);
+  // runTest('Test 09: ', assertionFailures, complexObject1, complexObject3);
+  // runTest('Test 10: ', assertionFailures, null, {});
 
   
   // Output the results
