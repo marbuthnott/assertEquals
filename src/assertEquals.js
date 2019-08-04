@@ -8,7 +8,7 @@
  * @param {*} actual The actual item
  */
 function assertEquals(message, expected, actual) {
-    return 'abc'
+    
 }
 
 
