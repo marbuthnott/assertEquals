@@ -10,7 +10,6 @@
 function assertEquals(message, expected, actual) {
     if (Array.isArray(expected) === true && Array.isArray(actual) === false) {
       throw new Error(message + 'Expected type Array but found ' + capitalize(typeof actual));
-
     }
 
     if (expected !== actual) {
@@ -82,7 +81,7 @@ function runAll() {
   runTest('Test 02: ', assertionFailures, 'abcdef', 'abc');
   runTest('Test 03: ', assertionFailures, ['a'], {0: 'a'});
   runTest('Test 04: ', assertionFailures, ['a'], 'this is a string');
-  // runTest('Test 05: ', assertionFailures, ['a', 'b'], ['a', 'b', 'c']);
+  runTest('Test 05: ', assertionFailures, ['a', 'b'], ['a', 'b', 'c']);
   // runTest('Test 06: ', assertionFailures, ['a', 'b', 'c'], ['a', 'b', 'c']);
   // runTest('Test 07: ', assertionFailures, complexObject1, complexObject1Copy);
   // runTest('Test 08: ', assertionFailures, complexObject1, complexObject2);

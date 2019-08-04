@@ -19,9 +19,16 @@ var assertEqualsSpec = {
 
   expectedIsArrayAndActualIsString_ThrowsError: function() {
     var assertion = function() {
-      assertEquals('Test 03: ', ['a'], 'this is a string');
+      assertEquals('Test 04: ', ['a'], 'this is a string');
     };
-    assert.throwsError(assertion, 'Test 03: Expected type Array but found String');
+    assert.throwsError(assertion, 'Test 04: Expected type Array but found String');
+  },
+
+  expectedAndActualArraysAreDifferentLengths_ThrowsError: function() {
+    var assertion = function() {
+      assertEquals('Test 05: ', ['a', 'b'], ['a', 'b', 'c']);
+    };
+    assert.throwsError(assertion, 'Test 05: Expected "a,b" found "a,b,c"')
   }
 }
 
