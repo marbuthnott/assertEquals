@@ -8,12 +8,16 @@ var assert = {
     }
   },
 
-  throwsError: function(someFunction) {
+  throwsError: function(someFunction, errorMessage) {
     try {
       someFunction();
     }
     catch(error) {
-      console.log('%c' + "Test passed, " + someFunction + " raises error", 'color: green');
+      console.log(error.message)
+      if (error.message !== errorMessage) {
+        throw new Error("Assertion failed: Error messages do not equal. '" + errorMessage + "' does not equal '" + error.message + "'");
+      }
+      console.log('%c' + "Test passed, " + someFunction + " raises error with '" + errorMessage, 'color: green');
       return;
     }
     throw new Error("Assertion failed: " + someFunction + " does not raise error");

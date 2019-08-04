@@ -9,7 +9,7 @@
  */
 function assertEquals(message, expected, actual) {
     if (expected !== actual) {
-      throw new Error(message + 'Expected "' + expected + '" found ' + actual);
+      throw new Error(message + 'Expected "' + expected + '" found "' + actual + '"');
     }
 }
 
@@ -71,7 +71,7 @@ function runAll() {
   var assertionFailures = [];
   runTest('Test 01: ', assertionFailures, 'abc', 'abc');
   runTest('Test 02: ', assertionFailures, 'abcdef', 'abc');
-  // runTest('Test 03: ', assertionFailures, ['a'], {0: 'a'});
+  runTest('Test 03: ', assertionFailures, ['a'], {0: 'a'});
   // runTest('Test 04: ', assertionFailures, ['a', 'b'], ['a', 'b', 'c']);
   // runTest('Test 05: ', assertionFailures, ['a', 'b', 'c'], ['a', 'b', 'c']);
   // runTest('Test 06: ', assertionFailures, complexObject1, complexObject1Copy);
