@@ -14,7 +14,7 @@ var assertEqualsSpec = {
     var assertion = function() {
       assertEquals('Test 03: ', ['a'], {0: 'a'});
     };
-    assert.throwsError(assertion);
+    assert.throwsError(assertion, 'Test 03: Expected type Array but found Object');
   }
 }
 

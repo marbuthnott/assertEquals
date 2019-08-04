@@ -8,8 +8,17 @@
  * @param {*} actual The actual item
  */
 function assertEquals(message, expected, actual) {
+    if (Array.isArray(expected) === true && Array.isArray(actual) === false) {
+      throw new Error(message + 'Expected type Array but found ' + capitalize(typeof actual));
+
+    }
+
     if (expected !== actual) {
       throw new Error(message + 'Expected "' + expected + '" found "' + actual + '"');
+    }
+
+    function capitalize(word) {
+      return word.charAt(0).toUpperCase() + word.slice(1)
     }
 }
 
