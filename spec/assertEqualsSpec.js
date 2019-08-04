@@ -59,12 +59,12 @@ var assertEqualsSpec = {
     assert.throwsError(assertion, 'Test 04: Expected type Array but found String');
   },
 
-  // test05_ExpectedAndActualArraysAreDifferentLengths_throwsError: function() {
-  //   var assertion = function() {
-  //     assertEquals('Test 05: ', ['a', 'b'], ['a', 'b', 'c']);
-  //   };
-  //   assert.throwsError(assertion, 'Test 05: Expected "a,b" found "a,b,c"')
-  // },
+  test05_ExpectedAndActualArraysAreDifferentLengths_throwsError: function() {
+    var assertion = function() {
+      assertEquals('Test 05: ', ['a', 'b'], ['a', 'b', 'c']);
+    };
+    assert.throwsError(assertion, 'Test 05: Expected array length 2 but found 3')
+  },
 
   test06_ExpectedAndActualArraysSame_doesNotThrowError: function() {
     assert.isEqual(assertEquals('Test 06: ', ['a', 'b', 'c'], ['a', 'b', 'c']), undefined);
@@ -74,12 +74,20 @@ var assertEqualsSpec = {
     assert.isEqual(assertEquals('Test 07: ', complexObject1, complexObject1Copy), undefined)
   },
 
-  test08_ExpectedAndActualObjectsAreDifferent_throwsError: function() {
+  test08_ExpectedAndActualObjectsDifferentValues_throwsError: function() {
     var assertion = function() {
       assertEquals('Test 08: ', complexObject1, complexObject2);
     };
     assert.throwsError(assertion, 'Test 08: Expected propB.propA[1].propB "b" but found "c"')
+  },
+
+  test09_ExpectedAndActualObjectsMissingKey_throwsError: function() {
+    var assertion = function() {
+      assertEquals('Test 09: ', complexObject1, complexObject3);
+    };
+    assert.throwsError(assertion, 'Test 09: Expected propB.propC but was not found')
   }
+
 }
 
 runner.runTests(assertEqualsSpec)
