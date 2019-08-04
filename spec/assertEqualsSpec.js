@@ -1,3 +1,4 @@
+
 var assertEqualsSpec = {
   test01_ExpectedAndActualStringsSame_doesNotThrowError: function() {
     assert.isEqual(assertEquals('Test 01: ', 'abc', 'abc'), undefined);
@@ -34,6 +35,26 @@ var assertEqualsSpec = {
   test06_ExpectedAndActualArraysSame_doesNotThrowError: function() {
     assert.isEqual(assertEquals('Test 06: ', ['a', 'b', 'c'], ['a', 'b', 'c']), undefined);
   },
+
+  test07_ExpectedAndActualObjectsSame_doesNotThrowError: function() {
+    var complexObject1 = {
+      propA: 1,
+      propB: {
+        propA: [1, { propA: 'a', propB: 'b' }, 3],
+        propB: 1,
+        propC: 2
+      }
+    };
+    var complexObject1Copy = {
+      propA: 1,
+      propB: {
+        propA: [1, { propA: 'a', propB: 'b' }, 3],
+        propB: 1,
+        propC: 2
+      }
+    };
+    assert.isEqual(assertEquals('Test 07: ', complexObject1, complexObject1Copy), undefined)
+  }
 }
 
 runner.runTests(assertEqualsSpec)
