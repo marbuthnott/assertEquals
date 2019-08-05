@@ -26,42 +26,45 @@ function assertEquals(message, expected, actual) {
     throw new Error(message + 'Expected type null but found type ' + capitalize(typeof actual));
   }
 
-  // check if it is an object
+  // if it is a deep object then iterate through it
   if (typeof expected === "object" && Array.isArray(expected) === false) {
     // iterate through the object
     for (var key1 in expected) {
       // if key1 is embedded object, iterate through it
       if (typeof expected[key1] === "object") {
         for (var key2 in expected[key1]) {
+          var keys2 = [key1, key2]
           // if key2 is embedded object, iterate through it
-          if (typeof expected[key1][key2] === "object") {
-            for (var key3 in expected[key1][key2]) {
+          if (typeof item(expected, keys2) === "object") {
+            for (var key3 in item(expected, keys2)) {
+              var keys3 = [key1, key2, key3]
               // if key3 is embedded object, iterate through it
-              if (typeof expected[key1][key2][key3] === "object") {
-                for (var key4 in expected[key1][key2][key3]) {
+              if (typeof item(expected, keys3) === "object") {
+                for (var key4 in item(expected, keys3)) {
+                  var keys4 = [key1, key2, key3, key4]
                   // checks for unequal elements in key4
-                  if (expected[key1][key2][key3][key4] !== actual[key1][key2][key3][key4]) {
-                    throw new Error(message + 'Expected ' + key1 + '.' + key2 + '[' + key3 + '].' + key4 + ' "' + expected[key1][key2][key3][key4] + '" but found "' + actual[key1][key2][key3][key4] + '"');
+                  if (item(expected, keys4) !== item(actual, keys4)) {
+                    throw new Error(message + 'Expected ' + key1 + '.' + key2 + '[' + key3 + '].' + key4 + ' "' + item(expected, keys4) + '" but found "' + item(actual, keys4) + '"');
                   }
                 }
               }
               // checks if actual key3 exists
-              else if (actual[key1][key2][key3] === undefined) {
+              else if (item(actual, keys3) === undefined) {
                 throw new Error(message + 'Expected ' + key1 + '.' + key2 + '[' + key3 + '] but was not found');
               }
               // checks for unequal elements in key3
-              else if (expected[key1][key2][key3] !== actual[key1][key2][key3] && typeof expected[key1][key2][key3] !== "object" && typeof actual[key1][key2][key3] !== "object") {
-                throw new Error(message + 'Expected ' + key1 + '.' + key2 + '[' + key3 + '] "' + expected[key1][key2][key3] + '" but found "' + actual[key1][key2][key3] + '"');
+              else if (item(expected, keys3) !== item(actual, keys3) && typeof item(expected, keys3) !== "object" && typeof item(actual, keys3) !== "object") {
+                throw new Error(message + 'Expected ' + key1 + '.' + key2 + '[' + key3 + '] "' + item(expected, keys3) + '" but found "' + item(actual, keys3) + '"');
               }
             }
           } 
           // checks if actual key2 exists
-          else if (actual[key1][key2] === undefined) {
+          else if (item(actual, keys2) === undefined) {
             throw new Error(message + 'Expected ' + key1 + '.' + key2 + ' but was not found');
           }
           // checks for unequal elements in key2
-          else if (expected[key1][key2] !== actual[key1][key2] && typeof expected[key1][key2] !== "object" && typeof actual[key1][key2] !== "object") {
-            throw new Error(message + 'Expected ' + key1 + '.' + key2 + ' "' + expected[key1][key2] + '" but found "' + actual[key1][key2] + '"');
+          else if (item(expected, keys2) !== item(actual, keys2) && typeof item(expected, keys2) !== "object" && typeof item(actual, keys2) !== "object") {
+            throw new Error(message + 'Expected ' + key1 + '.' + key2 + ' "' + item(expected, keys2) + '" but found "' + item(actual, keys2) + '"');
           }
         }
       }
@@ -81,8 +84,21 @@ function assertEquals(message, expected, actual) {
     throw new Error(message + 'Expected "' + expected + '" found "' + actual + '"');
   }
 
+  // private capitalize function
   function capitalize(word) {
     return word.charAt(0).toUpperCase() + word.slice(1)
+  }
+
+  // private function to return element in deep object
+  function item(input, keys) {
+    switch(keys.length) {
+      case 2:
+        return input[keys[0]][keys[1]];
+      case 3:
+        return input[keys[0]][keys[1]][keys[2]]; 
+      case 4:
+        return input[keys[0]][keys[1]][keys[2]][keys[3]];
+    }
   }
 }
 
