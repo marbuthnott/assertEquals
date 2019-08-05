@@ -33,6 +33,24 @@ var complexObject3 = {
   }
 };
 
+var complexObject4 = {
+  propA: 1,
+  propB: {
+    propA: 3,
+    propB: 'c',
+    propC: 2
+  }
+};
+
+var complexObject5 = {
+  propA: 1,
+  propB: {
+    propA: [1, { propA: 'a', propB: 'b' }, 3],
+    propB: 1,
+    propC: 3
+  }
+};
+
 var assertEqualsSpec = {
   test01_ExpectedAndActualStringsSame_doesNotThrowError: function() {
     assert.isEqual(assertEquals('Test 01: ', 'abc', 'abc'), undefined);
@@ -52,49 +70,63 @@ var assertEqualsSpec = {
     assert.throwsError(assertion, 'Test 03: Expected type Array but found Object');
   },
 
-  test04_ExpectedIsArrayAndActualIsString_throwsError: function() {
+  test04_ExpectedAndActualArraysAreDifferentLengths_throwsError: function() {
     var assertion = function() {
-      assertEquals('Test 04: ', ['a'], 'this is a string');
+      assertEquals('Test 04: ', ['a', 'b'], ['a', 'b', 'c']);
     };
-    assert.throwsError(assertion, 'Test 04: Expected type Array but found String');
+    assert.throwsError(assertion, 'Test 04: Expected array length 2 but found 3')
   },
 
-  test05_ExpectedAndActualArraysAreDifferentLengths_throwsError: function() {
+  test05_ExpectedAndActualArraysSame_doesNotThrowError: function() {
+    assert.isEqual(assertEquals('Test 05: ', ['a', 'b', 'c'], ['a', 'b', 'c']), undefined);
+  },
+
+  test06_ExpectedAndActualObjectsSame_doesNotThrowError: function() {
+    assert.isEqual(assertEquals('Test 06: ', complexObject1, complexObject1Copy), undefined)
+  },
+
+  test07_ExpectedAndActualObjectsDifferentValues_throwsError: function() {
     var assertion = function() {
-      assertEquals('Test 05: ', ['a', 'b'], ['a', 'b', 'c']);
+      assertEquals('Test 07: ', complexObject1, complexObject2);
     };
-    assert.throwsError(assertion, 'Test 05: Expected array length 2 but found 3')
+    assert.throwsError(assertion, 'Test 07: Expected propB.propA[1].propB "b" but found "c"')
   },
 
-  test06_ExpectedAndActualArraysSame_doesNotThrowError: function() {
-    assert.isEqual(assertEquals('Test 06: ', ['a', 'b', 'c'], ['a', 'b', 'c']), undefined);
-  },
-
-  test07_ExpectedAndActualObjectsSame_doesNotThrowError: function() {
-    assert.isEqual(assertEquals('Test 07: ', complexObject1, complexObject1Copy), undefined)
-  },
-
-  test08_ExpectedAndActualObjectsDifferentValues_throwsError: function() {
+  test08_ExpectedAndActualObjectsMissingKey_throwsError: function() {
     var assertion = function() {
-      assertEquals('Test 08: ', complexObject1, complexObject2);
+      assertEquals('Test 08: ', complexObject1, complexObject3);
     };
-    assert.throwsError(assertion, 'Test 08: Expected propB.propA[1].propB "b" but found "c"')
+    assert.throwsError(assertion, 'Test 08: Expected propB.propC but was not found')
   },
 
-  test09_ExpectedAndActualObjectsMissingKey_throwsError: function() {
+  test09_ExpectedNullAndActualObject_throwsError: function() {
     var assertion = function() {
-      assertEquals('Test 09: ', complexObject1, complexObject3);
+      assertEquals('Test 09: ', null, {});
     };
-    assert.throwsError(assertion, 'Test 09: Expected propB.propC but was not found')
+    assert.throwsError(assertion, 'Test 09: Expected type null but found type Object');
   },
 
-  test10_ExpectedNullAndActualObject_throwsError: function() {
+  test10_ExpectedIsArrayAndActualIsString_throwsError: function() {
     var assertion = function() {
-      assertEquals('Test 10: ', null, {});
+      assertEquals('Test 10: ', ['a'], 'this is a string');
     };
-    assert.throwsError(assertion, 'Test 10: Expected type null but found type Object');
-  }
+    assert.throwsError(assertion, 'Test 10: Expected type Array but found String');
+  },
 
+  test11_ExpectedAndActualObjectsMissingKey_throwsError: function() {
+    var assertion = function() {
+      assertEquals('Test 11: ', complexObject1, complexObject4);
+    };
+    assert.throwsError(assertion, 'Test 11: Expected propB.propA[0] but was not found')
+  },
+
+  test12_ExpectedAndActualObjectsMissingKey_throwsError: function() {
+    var assertion = function() {
+      assertEquals('Test 12: ', complexObject1, complexObject5);
+    };
+    assert.throwsError(assertion, 'Test 12: Expected propB.propC "2" but found "3"')
+  },
 }
+
 
 runner.runTests(assertEqualsSpec)

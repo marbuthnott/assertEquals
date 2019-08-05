@@ -13,19 +13,18 @@ function assertEquals(message, expected, actual) {
       throw new Error(message + 'Expected type Array but found ' + capitalize(typeof actual));
     }
 
-    if (expected === null && actual !== null) {
-      console.log("i'm here");
-      throw new Error(message + 'Expected type null but found type ' + capitalize(typeof actual));
-    }
-
-    else if (Array.isArray(expected) && Array.isArray(actual)) {
+    if (Array.isArray(expected) && Array.isArray(actual)) {
       if (expected.length !== actual.length) {
         throw new Error(message + 'Expected array length ' + expected.length + ' but found ' + actual.length);
       }
     }
 
+    if (expected === null && actual !== null) {
+      throw new Error(message + 'Expected type null but found type ' + capitalize(typeof actual));
+    }
+
     // check if it is an object
-    else if (typeof expected === "object" && Array.isArray(expected) === false) {
+    if (typeof expected === "object" && Array.isArray(expected) === false) {
       // iterate through the object
       for (var key1 in expected) {
         // if key1 is embedded object, iterate through it
@@ -43,13 +42,29 @@ function assertEquals(message, expected, actual) {
                     }
                   }
                 }
+                // checks if actual key3 exists
+                else if (actual[key1][key2][key3] === undefined) {
+                  throw new Error(message + 'Expected ' + key1 + '.' + key2 + '[' + key3 + '] but was not found');
+                }
+                // console.log(expected[key1][key2]);
+                // console.log(actual[key1][key2]);
+                // console.log(expected[key1][key2] !== actual[key1][key2])
               }
             } 
+            // checks if actual key2 exists
             else if (actual[key1][key2] === undefined) {
               throw new Error(message + 'Expected ' + key1 + '.' + key2 + ' but was not found');
             }
+            else if (expected[key1][key2] !== actual[key1][key2] && typeof expected[key1][key2] !== "object" && typeof actual[key1][key2] !== "object") {
+              throw new Error(message + 'Expected ' + key1 + '.' + key2 + ' "' + expected[key1][key2] + '" but found "' + actual[key1][key2] + '"');
+            }
           }
         }
+        // checks if actual key1 exists
+        else if (actual[key1] === undefined) {
+          throw new Error(message + 'Expected ' + key1 + ' but was not found');
+        }
+        console.log(actual[key1]);
       }
     }
 
@@ -61,8 +76,6 @@ function assertEquals(message, expected, actual) {
       return word.charAt(0).toUpperCase() + word.slice(1)
     }
 }
-
-
 
 /* -- Test running code:  --- */
 
@@ -116,19 +129,38 @@ function runAll() {
     }
   };
 
+  var complexObject4 = {
+    propA: 1,
+    propB: {
+      propA: 3,
+      propB: 'c',
+      propC: 2
+    }
+  };
+
+  var complexObject5 = {
+    propA: 1,
+    propB: {
+      propA: [1, { propA: 'a', propB: 'b' }, 3],
+      propB: 1,
+      propC: 3
+    }
+  };
+
   // Run the tests
   var assertionFailures = [];
   runTest('Test 01: ', assertionFailures, 'abc', 'abc');
   runTest('Test 02: ', assertionFailures, 'abcdef', 'abc');
   runTest('Test 03: ', assertionFailures, ['a'], {0: 'a'});
-  runTest('Test 04: ', assertionFailures, ['a'], 'this is a string');
-  runTest('Test 05: ', assertionFailures, ['a', 'b'], ['a', 'b', 'c']);
-  runTest('Test 06: ', assertionFailures, ['a', 'b', 'c'], ['a', 'b', 'c']);
-  runTest('Test 07: ', assertionFailures, complexObject1, complexObject1Copy);
-  runTest('Test 08: ', assertionFailures, complexObject1, complexObject2);
-  runTest('Test 09: ', assertionFailures, complexObject1, complexObject3);
-  runTest('Test 10: ', assertionFailures, null, {});
-
+  runTest('Test 04: ', assertionFailures, ['a', 'b'], ['a', 'b', 'c']);
+  runTest('Test 05: ', assertionFailures, ['a', 'b', 'c'], ['a', 'b', 'c']);
+  runTest('Test 06: ', assertionFailures, complexObject1, complexObject1Copy);
+  runTest('Test 07: ', assertionFailures, complexObject1, complexObject2);
+  runTest('Test 08: ', assertionFailures, complexObject1, complexObject3);
+  runTest('Test 09: ', assertionFailures, null, {});
+  runTest('Test 10: ', assertionFailures, ['a'], 'this is a string');
+  runTest('Test 11: ', assertionFailures, complexObject1, complexObject4);
+  runTest('Test 12: ', assertionFailures, complexObject1, complexObject5);
   
   // Output the results
   var messagesEl = document.getElementById('messages');
