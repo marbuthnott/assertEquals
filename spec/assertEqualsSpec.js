@@ -51,6 +51,15 @@ var complexObject5 = {
   }
 };
 
+var complexObject6 = {
+  propA: 1,
+  propB: {
+    propA: [4, { propA: 'a', propB: 'b' }, 3],
+    propB: 1,
+    propC: 3
+  }
+};
+
 var assertEqualsSpec = {
   test01_ExpectedAndActualStringsSame_doesNotThrowError: function() {
     assert.isEqual(assertEquals('Test 01: ', 'abc', 'abc'), undefined);
@@ -126,6 +135,13 @@ var assertEqualsSpec = {
     };
     assert.throwsError(assertion, 'Test 12: Expected propB.propC "2" but found "3"')
   },
+
+  test13_ExpectedAndActualObjectsMissingKey_throwsError: function() {
+    var assertion = function() {
+      assertEquals('Test 13: ', complexObject1, complexObject6);
+    };
+    assert.throwsError(assertion, 'Test 13: Expected propB.propA[0] "1" but found "4"')
+  }
 }
 
 
