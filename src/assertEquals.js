@@ -9,71 +9,81 @@
  */
 function assertEquals(message, expected, actual) {
 
-    if (Array.isArray(expected) && Array.isArray(actual) === false) {
-      throw new Error(message + 'Expected type Array but found ' + capitalize(typeof actual));
-    }
+  // if expected is array and actual is different data type throw error
+  if (Array.isArray(expected) && Array.isArray(actual) === false) {
+    throw new Error(message + 'Expected type Array but found ' + capitalize(typeof actual));
+  }
 
-    if (Array.isArray(expected) && Array.isArray(actual)) {
-      if (expected.length !== actual.length) {
-        throw new Error(message + 'Expected array length ' + expected.length + ' but found ' + actual.length);
-      }
+  // if expected and actual are arrays, check length
+  if (Array.isArray(expected) && Array.isArray(actual)) {
+    if (expected.length !== actual.length) {
+      throw new Error(message + 'Expected array length ' + expected.length + ' but found ' + actual.length);
     }
+  }
 
-    if (expected === null && actual !== null) {
-      throw new Error(message + 'Expected type null but found type ' + capitalize(typeof actual));
-    }
+  // if expected is null and actual has value throw error
+  if (expected === null && actual !== null) {
+    throw new Error(message + 'Expected type null but found type ' + capitalize(typeof actual));
+  }
 
-    // check if it is an object
-    if (typeof expected === "object" && Array.isArray(expected) === false) {
-      // iterate through the object
-      for (var key1 in expected) {
-        // if key1 is embedded object, iterate through it
-        if (typeof expected[key1] === "object") {
-          for (var key2 in expected[key1]) {
-            // if key2 is embedded object, iterate through it
-            if (typeof expected[key1][key2] === "object") {
-              for (var key3 in expected[key1][key2]) {
-                // if key3 is embedded object, iterate through it
-                if (typeof expected[key1][key2][key3] === "object") {
-                  for (var key4 in expected[key1][key2][key3]) {
-                    // check if expected === actual and if not throw error
-                    if (expected[key1][key2][key3][key4] !== actual[key1][key2][key3][key4]) {
-                      throw new Error(message + 'Expected ' + key1 + '.' + key2 + '[' + key3 + '].' + key4 + ' "' + expected[key1][key2][key3][key4] + '" but found "' + actual[key1][key2][key3][key4] + '"');
-                    }
+  // check if it is an object
+  if (typeof expected === "object" && Array.isArray(expected) === false) {
+    // iterate through the object
+    for (var key1 in expected) {
+      // if key1 is embedded object, iterate through it
+      if (typeof expected[key1] === "object") {
+        for (var key2 in expected[key1]) {
+          // if key2 is embedded object, iterate through it
+          if (typeof expected[key1][key2] === "object") {
+            for (var key3 in expected[key1][key2]) {
+              // if key3 is embedded object, iterate through it
+              if (typeof expected[key1][key2][key3] === "object") {
+                for (var key4 in expected[key1][key2][key3]) {
+                  // checks for unequal elements in key4
+                  if (expected[key1][key2][key3][key4] !== actual[key1][key2][key3][key4]) {
+                    throw new Error(message + 'Expected ' + key1 + '.' + key2 + '[' + key3 + '].' + key4 + ' "' + expected[key1][key2][key3][key4] + '" but found "' + actual[key1][key2][key3][key4] + '"');
                   }
                 }
-                // checks if actual key3 exists
-                else if (actual[key1][key2][key3] === undefined) {
-                  throw new Error(message + 'Expected ' + key1 + '.' + key2 + '[' + key3 + '] but was not found');
-                }
-                else if (expected[key1][key2][key3] !== actual[key1][key2][key3] && typeof expected[key1][key2][key3] !== "object" && typeof actual[key1][key2][key3] !== "object") {
-                  throw new Error(message + 'Expected ' + key1 + '.' + key2 + '[' + key3 + '] "' + expected[key1][key2][key3] + '" but found "' + actual[key1][key2][key3] + '"');
-                }
               }
-            } 
-            // checks if actual key2 exists
-            else if (actual[key1][key2] === undefined) {
-              throw new Error(message + 'Expected ' + key1 + '.' + key2 + ' but was not found');
+              // checks if actual key3 exists
+              else if (actual[key1][key2][key3] === undefined) {
+                throw new Error(message + 'Expected ' + key1 + '.' + key2 + '[' + key3 + '] but was not found');
+              }
+              // checks for unequal elements in key3
+              else if (expected[key1][key2][key3] !== actual[key1][key2][key3] && typeof expected[key1][key2][key3] !== "object" && typeof actual[key1][key2][key3] !== "object") {
+                throw new Error(message + 'Expected ' + key1 + '.' + key2 + '[' + key3 + '] "' + expected[key1][key2][key3] + '" but found "' + actual[key1][key2][key3] + '"');
+              }
             }
-            else if (expected[key1][key2] !== actual[key1][key2] && typeof expected[key1][key2] !== "object" && typeof actual[key1][key2] !== "object") {
-              throw new Error(message + 'Expected ' + key1 + '.' + key2 + ' "' + expected[key1][key2] + '" but found "' + actual[key1][key2] + '"');
-            }
+          } 
+          // checks if actual key2 exists
+          else if (actual[key1][key2] === undefined) {
+            throw new Error(message + 'Expected ' + key1 + '.' + key2 + ' but was not found');
+          }
+          // checks for unequal elements in key2
+          else if (expected[key1][key2] !== actual[key1][key2] && typeof expected[key1][key2] !== "object" && typeof actual[key1][key2] !== "object") {
+            throw new Error(message + 'Expected ' + key1 + '.' + key2 + ' "' + expected[key1][key2] + '" but found "' + actual[key1][key2] + '"');
           }
         }
-        // checks if actual key1 exists
-        else if (actual[key1] === undefined) {
-          throw new Error(message + 'Expected ' + key1 + ' but was not found');
-        }
+      }
+      // checks if actual key1 exists
+      else if (actual[key1] === undefined) {
+        throw new Error(message + 'Expected ' + key1 + ' but was not found');
+      }
+      // checks for unequal elements in key1
+      else if (expected[key1] !== actual[key1] && typeof expected[key1] !== "object" && typeof actual[key1] !== "object") {
+        throw new Error(message + 'Expected ' + key1 + ' "' + expected[key1] + '" but found "' + actual[key1] + '"');
       }
     }
+  }
 
-    if (expected.toString() !== actual.toString()) {
-      throw new Error(message + 'Expected "' + expected + '" found "' + actual + '"');
-    }
+  // if no error has been thrown in previous if statements, convert to string and compare
+  if (expected.toString() !== actual.toString()) {
+    throw new Error(message + 'Expected "' + expected + '" found "' + actual + '"');
+  }
 
-    function capitalize(word) {
-      return word.charAt(0).toUpperCase() + word.slice(1)
-    }
+  function capitalize(word) {
+    return word.charAt(0).toUpperCase() + word.slice(1)
+  }
 }
 
 /* -- Test running code:  --- */
