@@ -26,4 +26,4 @@ There are many variations of object complexity that could be tested. With more t
 
 There are also one or two hardcoded features in the assertEquals function, specifically line 47 where I have hardcoded the error message with `[]` to wrap around the index for the array. If I had another attempt I would try to create a private function to deal with the issue of element classification, and then to input the correct format into the error message.
 
-Finally, as the code itself isn't that descriptive, it would be good to break it up into something more readable. With more time I would break it into functions to initially identigy the input data type and then have individual functions to handle each data type.
+Finally, as the code itself isn't that descriptive, it would be good to break it up into something more readable. With more time I would break the code into functions, with an initial function to identify the input data type and then have individual functions to handle each data type.
