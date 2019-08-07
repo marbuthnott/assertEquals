@@ -17,9 +17,9 @@ function assertEquals(message, expected, actual) {
     } else if (Array.isArray(expected)) {
       _compareArray();
     } else if (typeof expected === 'object') {
-      _compareObjects();
+      _compareObject();
     } else {
-      _compareItems();
+      _compareItem();
     }
   }
 
@@ -30,11 +30,11 @@ function assertEquals(message, expected, actual) {
       if (expected.length !== actual.length) {
         throw new Error(message + 'Expected array length ' + expected.length + ' but found ' + actual.length);
       } else
-      _compareItems();
+      _compareItem();
     }
   }
 
-  function _compareObjects() {
+  function _compareObject() {
     var path = [];
 
     function _traverseObject(obj) {
@@ -102,7 +102,7 @@ function assertEquals(message, expected, actual) {
     }
   }
 
-  function _compareItems() {
+  function _compareItem() {
     if (expected.toString() !== actual.toString()) {
       throw new Error(message + 'Expected "' + expected + '" found "' + actual + '"');
     }
