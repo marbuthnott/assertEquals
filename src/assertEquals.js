@@ -35,8 +35,8 @@ function assertEquals(message, expected, actual) {
   }
 
   function compareObjects() {
-    var keys = [];
-
+    var path = [];
+    
     function traverseObject(obj) {
       for (var key in obj) {
         classify(obj[key], key)
@@ -51,13 +51,13 @@ function assertEquals(message, expected, actual) {
 
     function classify(item, key) {
       if (Array.isArray(item)) {
-        keys.push(key);
+        path.push(key);
         traverseArray(item);
-        keys.pop();
+        path.pop();
       } else if ((typeof item === 'object') && (item !== null)) {
-        keys.push(key);
+        path.push(key);
         traverseObject(item);
-        keys.pop()
+        path.pop()
       } else {
         compareElements(item, key)
       }
@@ -65,25 +65,25 @@ function assertEquals(message, expected, actual) {
 
     function compareElements(expectedElement, key) {
       var actualElement = actual;
-      var path = "";
-      keys.push(key)
-      for (var i = 0; i < keys.length; i++) {
-        actualElement = actualElement[keys[i]]
+      path.push(key)
+      for (var i = 0; i < path.length; i++) {
+        actualElement = actualElement[path[i]]
       }
       if (actualElement === undefined) {
-        path = keys[0];
-        for (var i = 1; i < keys.length; i++) {
-          path = path + '.' + keys[i]
-        }
-        throw new Error(message + 'Expected ' + path + ' but was not found')
+        pathToString();
+        throw new Error(message + 'Expected ' + pathString + ' but was not found')
       } else if (expectedElement !== actualElement) {
-        path = keys[0];
-        for (var i = 1; i < keys.length; i++) {
-          path = path + '.' + keys[i]
-        }
-        throw new Error(message + 'Expected ' + path + ' "' + expectedElement + '" but found "' + actualElement + '"')
+        pathToString();
+        throw new Error(message + 'Expected ' + pathString + ' "' + expectedElement + '" but found "' + actualElement + '"')
       } else {
-        keys.pop()
+        path.pop()
+      }
+    }
+
+    function pathToString() {
+      pathString = path[0];
+      for (var i = 1; i < path.length; i++) {
+        pathString = pathString + '.' + path[i]
       }
     }
 
