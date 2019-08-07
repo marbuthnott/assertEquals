@@ -59,32 +59,33 @@ function assertEquals(message, expected, actual) {
         traverseObject(item[key]);
         keys.pop()
       } else {
-        compareElements(item, key)
+        compareElements(item[key], key)
       }
     }
 
     function compareElements(expectedElement, key) {
       var actualElement = actual;
       var path = "";
+      keys.push(key)
       for (var i = 0; i < keys.length; i++) {
         actualElement = actualElement[keys[i]]
       }
-      if (actualElement[key] === undefined) {
-        keys.push(key);
+      if (actualElement === undefined) {
+        // keys.push(key);
         path = keys[0];
         for (var i = 1; i < keys.length; i++) {
           path = path + '.' + keys[i]
         }
         throw new Error(message + 'Expected ' + path + ' but was not found')
-      } else if (expectedElement[key] !== actualElement[key]) {
-        keys.push(key);
+      } else if (expectedElement !== actualElement) {
+        // keys.push(key);
         path = keys[0];
         for (var i = 1; i < keys.length; i++) {
           path = path + '.' + keys[i]
         }
-        throw new Error(message + 'Expected ' + path + ' "' + expectedElement[key] + '" but found "' + actualElement[key] + '"')
+        throw new Error(message + 'Expected ' + path + ' "' + expectedElement + '" but found "' + actualElement + '"')
       } else {
-
+        keys.pop()
       }
     }
 
