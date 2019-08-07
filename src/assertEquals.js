@@ -9,78 +9,78 @@
  */
 function assertEquals(message, expected, actual) {
 
-  classifyExpectedAndImplementComparison();
+  _classifyExpectedAndImplementComparison();
 
-  function classifyExpectedAndImplementComparison() {
+  function _classifyExpectedAndImplementComparison() {
     if (expected === null) {
-      compareNull()
+      _compareNull()
     } else if (Array.isArray(expected)) {
-      compareArray()
+      _compareArray()
     } else if (typeof expected === 'object') {
-      compareObjects()
+      _compareObjects()
     } else {
-      compareItems()
+      _compareItems()
     }
   }
 
-  function compareArray() {
+  function _compareArray() {
     if (!Array.isArray(actual)) {
-      throw new Error(message + 'Expected type Array but found ' + capitalize(typeof actual));
+      throw new Error(message + 'Expected type Array but found ' + _capitalize(typeof actual));
     } else {
       if (expected.length !== actual.length) {
         throw new Error(message + 'Expected array length ' + expected.length + ' but found ' + actual.length);
       } else
-      compareItems()
+      _compareItems()
     }
   }
 
-  function compareObjects() {
+  function _compareObjects() {
     var path = [];
 
-    function traverseObject(obj) {
+    function _traverseObject(obj) {
       for (var key in obj) {
-        classify(obj[key], key)
+        _classify(obj[key], key)
       }
     }
     
-    function traverseArray(arr) {
+    function _traverseArray(arr) {
       for (var i = 0; i < arr.length; i++) {
-        classify(arr[i], i)
+        _classify(arr[i], i)
       }
     }
 
-    function classify(item, key) {
+    function _classify(item, key) {
       if (Array.isArray(item)) {
         path.push(key);
-        traverseArray(item);
+        _traverseArray(item);
         path.pop();
       } else if ((typeof item === 'object') && (item !== null)) {
         path.push(key);
-        traverseObject(item);
+        _traverseObject(item);
         path.pop()
       } else {
-        compareElements(item, key)
+        _compareElements(item, key)
       }
     }
 
-    function compareElements(expectedElement, key) {
+    function _compareElements(expectedElement, key) {
       var actualElement = actual;
       path.push(key)
       for (var i = 0; i < path.length; i++) {
         actualElement = actualElement[path[i]]
       }
       if (actualElement === undefined) {
-        pathToString();
+        _pathToString();
         throw new Error(message + 'Expected ' + pathString + ' but was not found')
       } else if (expectedElement !== actualElement) {
-        pathToString();
+        _pathToString();
         throw new Error(message + 'Expected ' + pathString + ' "' + expectedElement + '" but found "' + actualElement + '"')
       } else {
         path.pop()
       }
     }
 
-    function pathToString() {
+    function _pathToString() {
       pathString = path[0];
       for (var i = 1; i < path.length; i++) {
         if (Number.isInteger(path[i])) {
@@ -93,22 +93,22 @@ function assertEquals(message, expected, actual) {
       }
     }
 
-    traverseObject(expected)
+    _traverseObject(expected)
   }
 
-  function compareNull() {
+  function _compareNull() {
     if (actual !== null) {
-      throw new Error(message + 'Expected type null but found type ' + capitalize(typeof actual));
+      throw new Error(message + 'Expected type null but found type ' + _capitalize(typeof actual));
     }
   }
 
-  function compareItems() {
+  function _compareItems() {
     if (expected.toString() !== actual.toString()) {
       throw new Error(message + 'Expected "' + expected + '" found "' + actual + '"');
     }
   }
 
-  function capitalize(word) {
+  function _capitalize(word) {
     return word.charAt(0).toUpperCase() + word.slice(1)
   }
 }
