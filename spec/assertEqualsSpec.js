@@ -59,7 +59,6 @@ var complexObject6 = {
     propC: 3
   }
 };
-
 var assertEqualsSpec = {
   test01_ExpectedAndActualStringsSame_doesNotThrowError: function() {
     assert.isEqual(assertEquals('Test 01: ', 'abc', 'abc'), undefined);
