@@ -2,7 +2,7 @@
 
 ## INTRODUCTION
 
-Tech test to build an `assertEquals` function in Vanilla JavaScript.
+Building an `assertEquals` function in Vanilla JavaScript.
 
 ## HOW TO USE
 
@@ -20,10 +20,4 @@ Initially built the testing framework by adapting a Vanilla JS testing script I 
 
 Used TDD to work through the specified testing criteria before adding four additional tests to test an input of array and an output string, and three tests testing various levels of object complexity.
 
-## WHAT I WOULD DO DIFFERENTLY
-
-There are many variations of object complexity that could be tested. With more time I would start to look at other data types, e.g. if expected is `'a'` and actual is an `object`, or if expected is `object` and actual is `array`.
-
-There are also one or two hardcoded features in the assertEquals function, specifically line 47 where I have hardcoded the error message with `[]` to wrap around the index for the array. If I had another attempt I would try to create a private function to deal with the issue of element classification, and then to input the correct format into the error message.
-
-Finally, as the code itself isn't that descriptive, it would be good to break it up into something more readable. With more time I would break the code into functions, with an initial function to identify the input data type followed by individual functions to handle each data type.
+Being able to recursively traverse a complex object made up of embedded objects, arrays, strings, null values... etc was a challenge. Initially I used an `if else` statement to handle this problem, but this would only go into four depths of properties. To rectify this I implemented a loop that would be able to handle the different layers of the object recursively, I then added a `path` array to record the path of the loop which would then print if a mismatch was found.
