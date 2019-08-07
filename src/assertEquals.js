@@ -13,13 +13,13 @@ function assertEquals(message, expected, actual) {
 
   function _classifyExpectedAndImplementComparison() {
     if (expected === null) {
-      _compareNull()
+      _compareNull();
     } else if (Array.isArray(expected)) {
-      _compareArray()
+      _compareArray();
     } else if (typeof expected === 'object') {
-      _compareObjects()
+      _compareObjects();
     } else {
-      _compareItems()
+      _compareItems();
     }
   }
 
@@ -30,7 +30,7 @@ function assertEquals(message, expected, actual) {
       if (expected.length !== actual.length) {
         throw new Error(message + 'Expected array length ' + expected.length + ' but found ' + actual.length);
       } else
-      _compareItems()
+      _compareItems();
     }
   }
 
@@ -39,13 +39,13 @@ function assertEquals(message, expected, actual) {
 
     function _traverseObject(obj) {
       for (var key in obj) {
-        _classify(obj[key], key)
+        _classify(obj[key], key);
       }
     }
     
     function _traverseArray(arr) {
       for (var i = 0; i < arr.length; i++) {
-        _classify(arr[i], i)
+        _classify(arr[i], i);
       }
     }
 
@@ -57,26 +57,26 @@ function assertEquals(message, expected, actual) {
       } else if ((typeof item === 'object') && (item !== null)) {
         path.push(key);
         _traverseObject(item);
-        path.pop()
+        path.pop();
       } else {
-        _compareElements(item, key)
+        _compareElements(item, key);
       }
     }
 
     function _compareElements(expectedElement, key) {
       var actualElement = actual;
-      path.push(key)
+      path.push(key);
       for (var i = 0; i < path.length; i++) {
-        actualElement = actualElement[path[i]]
+        actualElement = actualElement[path[i]];
       }
       if (actualElement === undefined) {
         _pathToString();
-        throw new Error(message + 'Expected ' + pathString + ' but was not found')
+        throw new Error(message + 'Expected ' + pathString + ' but was not found');
       } else if (expectedElement !== actualElement) {
         _pathToString();
-        throw new Error(message + 'Expected ' + pathString + ' "' + expectedElement + '" but found "' + actualElement + '"')
+        throw new Error(message + 'Expected ' + pathString + ' "' + expectedElement + '" but found "' + actualElement + '"');
       } else {
-        path.pop()
+        path.pop();
       }
     }
 
@@ -84,16 +84,16 @@ function assertEquals(message, expected, actual) {
       pathString = path[0];
       for (var i = 1; i < path.length; i++) {
         if (Number.isInteger(path[i])) {
-          pathString = pathString + '[' + path[i] + ']'
+          pathString = pathString + '[' + path[i] + ']';
         } else if (Number.isInteger(path[i-1])) {
-          pathString = pathString + path[i]
+          pathString = pathString + path[i];
         } else {
-          pathString = pathString + '.' + path[i]
+          pathString = pathString + '.' + path[i];
         }
       }
     }
 
-    _traverseObject(expected)
+    _traverseObject(expected);
   }
 
   function _compareNull() {
@@ -109,7 +109,7 @@ function assertEquals(message, expected, actual) {
   }
 
   function _capitalize(word) {
-    return word.charAt(0).toUpperCase() + word.slice(1)
+    return word.charAt(0).toUpperCase() + word.slice(1);
   }
 }
 
