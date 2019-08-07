@@ -36,7 +36,7 @@ function assertEquals(message, expected, actual) {
 
   function compareObjects() {
     var path = [];
-    
+
     function traverseObject(obj) {
       for (var key in obj) {
         classify(obj[key], key)
@@ -83,7 +83,13 @@ function assertEquals(message, expected, actual) {
     function pathToString() {
       pathString = path[0];
       for (var i = 1; i < path.length; i++) {
-        pathString = pathString + '.' + path[i]
+        if (Number.isInteger(path[i])) {
+          pathString = pathString + '[' + path[i] + ']'
+        } else if (Number.isInteger(path[i-1])) {
+          pathString = pathString + path[i]
+        } else {
+          pathString = pathString + '.' + path[i]
+        }
       }
     }
 

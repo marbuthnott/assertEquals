@@ -97,7 +97,7 @@ var assertEqualsSpec = {
     var assertion = function() {
       assertEquals('Test 07: ', complexObject1, complexObject2);
     };
-    assert.throwsError(assertion, 'Test 07: Expected propB.propA.1.propB "b" but found "c"')
+    assert.throwsError(assertion, 'Test 07: Expected propB.propA[1]propB "b" but found "c"')
   },
 
   test08_ExpectedAndActualObjectsMissingKey_throwsError: function() {
@@ -125,7 +125,7 @@ var assertEqualsSpec = {
     var assertion = function() {
       assertEquals('Test 11: ', complexObject1, complexObject4);
     };
-    assert.throwsError(assertion, 'Test 11: Expected propB.propA.0 but was not found')
+    assert.throwsError(assertion, 'Test 11: Expected propB.propA[0] but was not found')
   },
 
   test12_ExpectedAndActualObjectsMissingKey_throwsError: function() {
@@ -139,14 +139,14 @@ var assertEqualsSpec = {
     var assertion = function() {
       assertEquals('Test 13: ', complexObject1, complexObject6);
     };
-    assert.throwsError(assertion, 'Test 13: Expected propB.propA.0 "1" but found "4"')
+    assert.throwsError(assertion, 'Test 13: Expected propB.propA[0] "1" but found "4"')
   },
 
   test14_IteratingThroughArraysRecursively_throwsError: function() {
     var assertion = function() {
       assertEquals('Test 14: ', {propA: "c", propB: 2, propC: [1, 2]}, {propA: "c", propB: 2, propC: [1, 3]});
     };
-    assert.throwsError(assertion, 'Test 14: Expected propC.1 "2" but found "3"')
+    assert.throwsError(assertion, 'Test 14: Expected propC[1] "2" but found "3"')
   },
 
   test15_SimpleObjects_throwsError: function() {
